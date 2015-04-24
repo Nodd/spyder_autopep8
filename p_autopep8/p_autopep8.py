@@ -32,12 +32,11 @@ except ImportError:
 from spyderlib.qt.QtGui import (
     QWidget, QTextCursor, QVBoxLayout, QGroupBox, QScrollArea, QLabel,
     QCheckBox)
-from spyderlib.qt.QtCore import SIGNAL
 
 # Local imports
 from spyderlib.baseconfig import get_translation
 _ = get_translation("p_autopep8", dirname="spyderplugins")
-from spyderlib.utils.qthelpers import get_icon, create_action
+from spyderlib.utils.qthelpers import create_action
 try:
     from spyderlib.py3compat import to_text_string
 except ImportError:
@@ -169,10 +168,8 @@ class AutoPEP8ConfigPage(PluginConfigPage):
         aggressive2_label.setIndent(indent)
         aggressive2_label.setFont(font_description)
 
-        self.connect(aggressive1_checkbox, SIGNAL("toggled(bool)"),
-                     aggressive2_checkbox.setEnabled)
-        self.connect(aggressive1_checkbox, SIGNAL("toggled(bool)"),
-                     aggressive2_label.setEnabled)
+        aggressive1_checkbox.toggled.connect(aggressive2_checkbox.setEnabled)
+        aggressive1_checkbox.toggled.connect(aggressive2_label.setEnabled)
         aggressive2_checkbox.setEnabled(aggressive1_checkbox.isChecked())
         aggressive2_label.setEnabled(aggressive1_checkbox.isChecked())
 
@@ -216,10 +213,8 @@ class AutoPEP8ConfigPage(PluginConfigPage):
 
             # Special cases
             if code in ("E711", "W6"):
-                self.connect(aggressive1_checkbox, SIGNAL("toggled(bool)"),
-                             option.setEnabled)
-                self.connect(aggressive1_checkbox, SIGNAL("toggled(bool)"),
-                             label.setEnabled)
+                aggressive1_checkbox.toggled.connect(option.setEnabled)
+                aggressive1_checkbox.toggled.connect(label.setEnabled)
                 option.setEnabled(aggressive1_checkbox.isChecked())
                 label.setEnabled(aggressive1_checkbox.isChecked())
             if code == "E712":
@@ -228,10 +223,8 @@ class AutoPEP8ConfigPage(PluginConfigPage):
                                and aggressive2_checkbox.isChecked())
                     option.setEnabled(enabled)
                     label.setEnabled(enabled)
-                self.connect(aggressive1_checkbox, SIGNAL("toggled(bool)"),
-                             e712_enabled)
-                self.connect(aggressive2_checkbox, SIGNAL("toggled(bool)"),
-                             e712_enabled)
+                aggressive1_checkbox.toggled.connect(e712_enabled)
+                aggressive1_checkbox.toggled.connect(e712_enabled)
                 e712_enabled()
 
         # General layout
@@ -290,7 +283,7 @@ class AutoPEP8(SpyderPluginMixin):  # pylint: disable=R0904
 
     def get_plugin_icon(self):
         """Return widget icon"""
-        return get_icon('autopep8.png')
+        return self.get_icon('autopep8.png')
 
     def register_plugin(self):
         """Register plugin in Spyder's main window"""
