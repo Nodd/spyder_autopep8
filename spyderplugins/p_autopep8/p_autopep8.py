@@ -376,9 +376,3 @@ class AutoPEP8(SpyderPluginMixin):  # pylint: disable=R0904
 
         self.main.statusBar().showMessage(
             _("Autopep8 finished !"))
-
-
-#==============================================================================
-# The following statements are required to register this 3rd party plugin:
-#==============================================================================
-PLUGIN_CLASS = AutoPEP8  # pylint: disable=C0103
