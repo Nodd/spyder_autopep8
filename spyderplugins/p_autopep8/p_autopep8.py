@@ -34,8 +34,10 @@ from spyderlib.qt.QtGui import (
     QCheckBox)
 
 # Local imports
-from spyderlib.baseconfig import get_translation
-_ = get_translation("p_autopep8", dirname="spyderplugins")
+# TODO: activate translation
+#from spyderlib.baseconfig import get_translation
+#_ = get_translation("p_autopep8", dirname="spyderplugins.autopep8")
+_ = lambda txt: txt
 from spyderlib.utils.qthelpers import create_action
 try:
     from spyderlib.py3compat import to_text_string
